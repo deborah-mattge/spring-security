@@ -1,5 +1,6 @@
 package weg.net.atvuser;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,11 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import weg.net.atvuser.service.AuthenticationService;
+
+import java.util.List;
 
 @Configuration
 @AllArgsConstructor
@@ -26,6 +31,13 @@ public class BeanConfig {
 //    public void configureGlobal(AuthenticationManagerBuilder auth, AuthenticationService autenticacaoService) throws Exception{
 //        auth.userDetailsService(autenticacaoService).passwordEncoder(NoOpPasswordEncoder.getInstance());
 //    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+        corsConfiguration.setAllowedMethods(List.of("POST"));
+        corsConfiguration.setAllowCredentials(true);
+    }
 
 
     @Bean
