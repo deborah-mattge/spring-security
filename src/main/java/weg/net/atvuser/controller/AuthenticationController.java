@@ -27,7 +27,7 @@ public class AuthenticationController {
     private SecurityContextRepository contextRepository;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final CookieUtil cookieUtil = new CookieUtil();
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<String> authenticate(@RequestBody UserLogin user, HttpServletRequest request, HttpServletResponse response){
         try{
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -42,6 +42,7 @@ public class AuthenticationController {
 //            contextRepository.saveContext(context, request,response );
 
             UserDetails user1 = (UserDetails) authentication.getDetails();
+            System.out.println(user1);
             String token = jwtUtil.gerarToken(user1);
             Cookie cookie = cookieUtil.gerarCookie(user1);
             return  ResponseEntity.ok("autenticação bem sucedida");

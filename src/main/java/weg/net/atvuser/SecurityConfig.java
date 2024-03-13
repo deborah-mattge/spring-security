@@ -49,11 +49,13 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorizeRequest -> authorizeRequest.requestMatchers
                         (HttpMethod.GET,"/user").hasAuthority("Get")
-                .requestMatchers(HttpMethod.GET,"user/users").permitAll()
+                .requestMatchers(HttpMethod.GET,"/user/users").permitAll()
+                .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .anyRequest().authenticated()
         );
         http.securityContext((context)->context.securityContextRepository(repo));
-        http.formLogin(Customizer.withDefaults());
+        // http.formLogin(Customizer.withDefaults());
+        http.formLogin(AbstractHttpConfigurer::disable);
         http.logout(Customizer.withDefaults());
         http.sessionManagement(config->{
             config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
