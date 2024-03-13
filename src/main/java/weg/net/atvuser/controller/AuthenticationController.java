@@ -41,8 +41,7 @@ public class AuthenticationController {
 //            //sabe que tem um usuario autenticado no sistema
 //            contextRepository.saveContext(context, request,response );
 
-            UserDetails user1 = (UserDetails) authentication.getDetails();
-            System.out.println(user1);
+            UserDetails user1 = (UserDetails) authentication.getPrincipal();
             String token = jwtUtil.gerarToken(user1);
             Cookie cookie = cookieUtil.gerarCookie(user1);
             return  ResponseEntity.ok("autenticação bem sucedida");
