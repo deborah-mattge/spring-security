@@ -31,7 +31,7 @@ public class SecurityConfig {
 
 
     private final SecurityContextRepository repo;
-    private final FIltroAutenticacao fIltroAutenticacao = new FIltroAutenticacao();
+    private final FIltroAutenticacao fIltroAutenticacao;
 
 //    @Bean
 //    public SecurityFilterChain config(HttpSecurity http)throws Exception{
@@ -48,15 +48,15 @@ public class SecurityConfig {
     public SecurityFilterChain config(HttpSecurity http)throws Exception{
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorizeRequest -> authorizeRequest.requestMatchers
-                        (HttpMethod.GET,"/user").hasAuthority("Get")
+                        (HttpMethod.GET,"/user").hasAuthority(Autorizacao.GET.getAuthority())
                 .requestMatchers(HttpMethod.GET,"/user/users").permitAll()
                 .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .anyRequest().authenticated()
         );
-        http.securityContext((context)->context.securityContextRepository(repo));
+      http.securityContext((context)->context.securityContextRepository(repo));
         // http.formLogin(Customizer.withDefaults());
         http.formLogin(AbstractHttpConfigurer::disable);
-        http.logout(Customizer.withDefaults());
+        http.logout(AbstractHttpConfigurer ::disable);
         http.sessionManagement(config->{
             config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });

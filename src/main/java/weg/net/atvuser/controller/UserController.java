@@ -24,7 +24,7 @@ private final UserService userService;
 public User buscarUm(@PathVariable Integer id){
    return userService.findOne(id) ;
 }
-@GetMapping("/users")
+@GetMapping()
     public List<User> buscarTodos(){
     return userService.findAll();
 }

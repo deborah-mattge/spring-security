@@ -44,10 +44,21 @@ public class AuthenticationController {
             UserDetails user1 = (UserDetails) authentication.getPrincipal();
             String token = jwtUtil.gerarToken(user1);
             Cookie cookie = cookieUtil.gerarCookie(user1);
+            response.addCookie(cookie);
             return  ResponseEntity.ok("autenticação bem sucedida");
         }catch (AuthenticationException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autorizacao");
         }
 
+    }
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        try {
+            Cookie cookie = cookieUtil.getCookie(request, "JWT");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }catch (Exception e){
+            response.setStatus(401);
+        }
     }
 }
